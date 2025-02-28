@@ -11,7 +11,19 @@ def items_page (request):
     return render(request, template_name="main/items.html", context={'items' : items})
 
 def login_page (request):
-    return render(request, template_name='main/login.html')
+    if request.method == "GET":
+        return render(request, template_name='main/login.html')
+    elif request.method == "POST":
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('items')
+        else: 
+            error_message = "Invalid username or password."
+            return render(request,'login', {'error': error_message})
+        
 
 def logout_page (request):
     ...
