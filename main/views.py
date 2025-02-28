@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from main.models import Item
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 
-# Create your views here.
 def home_page(request):
     return render(request, template_name="main/home.html")
 
@@ -16,4 +17,16 @@ def logout_page (request):
     ...
 
 def register_page (request):
-    return render (request, template_name='main/register.html')
+    if request.method == 'GET':
+        return render (request, template_name='main/register.html')
+    elif request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('home')
+        else:
+            return render(request, 'main/register.html', {'form': form})
