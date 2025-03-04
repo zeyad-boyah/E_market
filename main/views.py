@@ -7,8 +7,11 @@ def home_page(request):
     return render(request, template_name="main/home.html")
 
 def items_page (request):
-    items = Item.objects.all()
-    return render(request, template_name="main/items.html", context={'items' : items})
+    if request.method == "GET":    
+        items = Item.objects.all()
+        return render(request, template_name="main/items.html", context={'items' : items})
+    elif request.method == "POST":
+        ...
 
 def login_page (request):
     if request.method == "GET":

@@ -9,9 +9,14 @@
         <h5 class="modal-title" id="ModalLabel">
           {{ item.name }}
         </h5>
+        
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <div class="d-flex justify-content-center">
+          <img alt="image" style="width:200px" src="{{ item.image_url }}">
+        </div>
+        <br>
         {{ item.description }}
       </div>
       <div class="modal-footer">
@@ -41,6 +46,9 @@
             <h4 class="text-center">
                 {{ item.name }} costs {{ item.price }}$
             </h4>
+            <div class="d-flex justify-content-center">
+              <img alt="image" style="width:200px" src="{{ item.image_url }}">
+            </div>
             <br>
             <h6 class="text-center">
                 By clicking Purchase, you will buy this item from the market
