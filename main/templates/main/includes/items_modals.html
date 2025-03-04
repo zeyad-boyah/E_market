@@ -50,12 +50,21 @@
               <img alt="image" style="width:200px" src="{{ item.image_url }}">
             </div>
             <br>
+            {% if user.is_authenticated %}
             <h6 class="text-center">
                 By clicking Purchase, you will buy this item from the market
             </h6>
             <br>
-            <input type="hidden" name="purchased-item" value="{{ item.name }}">
+            <input type="hidden" name="purchased-item" value="{{ item.id }}">
             <button type="submit" class="btn btn-outline-success btn-block">Purchase</button>
+            {% else %}
+            <div class="login-prompt">
+              <a href="{% url 'login' %}?next={{ request.path }}" 
+                 class="btn-login">
+                 Login to Purchase
+              </a>
+            </div>
+            {% endif %}
         </form>
       </div>
       <div class="modal-footer">
@@ -66,3 +75,5 @@
     </div>
   </div>
 </div>
+
+

@@ -1,23 +1,40 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.urls import reverse
 from main.models import Item
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
 
 def home_page(request):
     return render(request, template_name="main/home.html")
 
+@transaction.atomic
 def items_page (request):
     if request.method == "GET":    
         items = Item.objects.all()
         return render(request, template_name="main/items.html", context={'items' : items})
     elif request.method == "POST":
-        purchased_item = request.POST.get('purchased-item') # this gets the name
+        if not request.user.is_authenticated:
+            messages.warning(request, "You need to log in to make a purchase")
+            # Redirect to login with 'next' parameter to return here after login
+            return redirect(f"{reverse('login')}?next={reverse('items')}")
+        purchased_item = request.POST.get('purchased-item') # this gets the id
         if purchased_item:
-            purchased_item_object = Item.objects.get(name=purchased_item)
-            purchased_item_object.owner = request.user
-            purchased_item_object.save()
+            try:
+                item = Item.objects.get(id=purchased_item)
+                if item.owner is None:
+                    item.owner = request.user
+                    item.save()
+                    messages.success(request, f"Successfully purchased {item.name}!")
+                else:
+                    messages.error(request, "This item is already owned!")
+            except Item.DoesNotExist:
+                messages.error(request, "Item not found")
+        
+        return redirect("items")
     
-    return redirect("items")
 
 def login_page (request):
     if request.method == "GET":
@@ -28,6 +45,7 @@ def login_page (request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
+            messages.success(request, f'you logged in {user.username}, Welcome')
             return redirect('items')
         else: 
             error_message = "Invalid username or password."
@@ -49,6 +67,7 @@ def register_page (request):
             password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
+            messages.success(request, f'you registered {user.username}, Welcome :)')
             return redirect('home')
         else:
             return render(request, 'main/register.html', {'form': form})
