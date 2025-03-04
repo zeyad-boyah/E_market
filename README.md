@@ -1,7 +1,7 @@
 # E_market
 
 ## Overview
-this is a small django e-commerce website to test my skills in making a functioning web application and it was inspired by [@username] (https://www.github.com/jimdevops19)
+this is a small django e-commerce website to test my skills in making a functioning web application and it was inspired by https://www.github.com/jimdevops19
 
 ## versions:
 - django 5.1.6
