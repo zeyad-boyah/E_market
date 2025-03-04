@@ -12,6 +12,7 @@
         <th scope="col">Image</th>
         <th scope="col">Price</th>
         <th scope="col">Options</th>
+        <th scope="col">owner</th>
       </tr>
     </thead>
     <tbody>
@@ -35,6 +36,7 @@
                         Purchase this Item
                     </button>
                 </td>
+                <td>{{ item.owner }}</td>
             </tr>
         {% endfor %}
     </tbody>

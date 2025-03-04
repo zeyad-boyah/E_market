@@ -11,7 +11,13 @@ def items_page (request):
         items = Item.objects.all()
         return render(request, template_name="main/items.html", context={'items' : items})
     elif request.method == "POST":
-        ...
+        purchased_item = request.POST.get('purchased-item') # this gets the name
+        if purchased_item:
+            purchased_item_object = Item.objects.get(name=purchased_item)
+            purchased_item_object.owner = request.user
+            purchased_item_object.save()
+    
+    return redirect("items")
 
 def login_page (request):
     if request.method == "GET":
