@@ -22,11 +22,12 @@ def login_page (request):
             return redirect('items')
         else: 
             error_message = "Invalid username or password."
-            return render(request,'login', {'error': error_message})
+            return render(request,'main/login.html', {'error': error_message})
         
 
 def logout_page (request):
-    ...
+    logout(request)
+    return redirect('login')
 
 def register_page (request):
     if request.method == 'GET':
