@@ -1,6 +1,6 @@
 # E_market
 
-#### Video Demo:  
+#### Video Demo:  https://youtu.be/2kLgeH3vi-k
 
 #### Description:
 - this is a small django e-commerce website for Cs50 to test my skills in making a functioning web application and it was inspired by https://www.github.com/jimdevops19
