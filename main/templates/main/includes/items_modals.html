@@ -1,27 +1,24 @@
 <!-- https://getbootstrap.com/docs/5.3/components/modal/#how-it-works -->
 <!-- More Info -->
-<div class="modal fade" id="Modal-MoreInfo{{ item.pk }}"
-     tabindex="-1"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="Modal-MoreInfo{{ item.pk }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="ModalLabel">
-          {{ item.name }}
-        </h5>
-        
+        <h5 class="modal-title" id="ModalLabel">{{ item.name }}</h5>
+
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="d-flex justify-content-center">
-          <img alt="image" style="width:200px" src="{{ item.image_url }}">
+          <img alt="image" style="width: 200px" src="{{ item.image_url }}" />
         </div>
-        <br>
+        <br />
         {{ item.description }}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-                data-bs-dismiss="modal">Close
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
         </button>
       </div>
     </div>
@@ -29,51 +26,53 @@
 </div>
 
 <!-- Purchase Item -->
-<div class="modal fade" id="Modal-PurchaseConfirm{{ item.pk }}"
-     tabindex="-1"
-     aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="Modal-PurchaseConfirm{{ item.pk }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabel">
-            Are you sure you want to buy {{ item.name }} ?
+          Are you sure you want to buy {{ item.name }} ?
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form method="POST">
-            {% csrf_token %}
-            <h4 class="text-center">
-                {{ item.name }} costs {{ item.price }}$
-            </h4>
-            <div class="d-flex justify-content-center">
-              <img alt="image" style="width:200px" src="{{ item.image_url }}">
-            </div>
-            <br>
-            {% if user.is_authenticated %}
-            <h6 class="text-center">
-                By clicking Purchase, you will buy this item from the market
-            </h6>
-            <br>
-            <input type="hidden" name="purchased-item" value="{{ item.id }}">
-            <button type="submit" class="btn btn-outline-success btn-block">Purchase</button>
-            {% else %}
-            <div class="login-prompt">
-              <a href="{% url 'login' %}?next={{ request.path }}" 
-                 class="btn-login">
-                 Login to Purchase
-              </a>
-            </div>
-            {% endif %}
+          {% csrf_token %}
+          <h4 class="text-center">{{ item.name }} costs {{ item.price }}$</h4>
+          {% if item.stock > 0 %}
+          <p class="text-center text-success">{{ item.stock }} left in stock</p>
+          {% else %}
+          <p class="text-center text-danger">Out of stock</p>
+          {% endif %}
+
+          <div class="d-flex justify-content-center">
+            <img alt="image" style="width: 200px" src="{{ item.image_url }}" />
+          </div>
+          <br />
+          {% if user.is_authenticated %}
+          <h6 class="text-center">
+            By clicking Purchase, you will buy this item from the market
+          </h6>
+          <br />
+          <input type="hidden" name="purchased-item" value="{{ item.id }}" />
+          <button type="submit" class="btn btn-outline-success btn-block">
+            Purchase
+          </button>
+          {% else %}
+          <div class="login-prompt">
+            <a href="{% url 'login' %}?next={{ request.path }}" class="btn-login">
+              Login to Purchase
+            </a>
+          </div>
+          {% endif %}
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"
-                data-bs-dismiss="modal">Close
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
         </button>
       </div>
     </div>
   </div>
 </div>
-
-

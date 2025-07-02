@@ -6,38 +6,36 @@
 
 
 {% block content %}
-<body class="text-center">
-    <form class="form-signin" method="POST">
-        {% csrf_token %}
-        <img class="mb-4" height="250px" src="https://i.pinimg.com/736x/62/8d/f8/628df8c526be092c9c006ba82a2eb4dd.jpg" alt="">
-        <h1 class="h3 mb-3 font-weight-normal">
-            Please sign in
-        </h1>
-        {% if error %}
-        <div class="alert alert-danger">
-            {{ error }}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <div class="text-center mb-4">
+            <img src="https://i.pinimg.com/736x/62/8d/f8/628df8c526be092c9c006ba82a2eb4dd.jpg" alt="logo" height="120">
+            <h4 class="mt-2">Login to Your Account</h4>
+          </div>
+          <form method="POST">
+            {% csrf_token %}
+            {% if error %}
+              <div class="alert alert-info alert-dismissible fade show" role="alert">{{ error }}</div>
+            {% endif %}
+            <div class="mb-3">
+              <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <button class="btn btn-primary w-100">Login</button>
+            <div class="text-center mt-3">
+              <a href="{% url 'register' %}">Don’t have an account?</a>
+            </div>
+          </form>
         </div>
-        {% endif %}
-
-
-        <!-- Form Fields -->
-        <label for="inputUsername" class="sr-only">
-            User Name
-        </label>
-        <input type="text" id="inputUsername" class="form-control" placeholder="User Name" name="username" required autofocus>
-        <br>
-
-        <label for="inputPassword1" class="sr-only">
-            Password
-        </label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required >
-        <br>
-        <div class="checkbox mb-3">
-            <h6>Dont Have an account? </h6>
-            <a class="btn btn-sm btn-secondary" href="{% url 'register' %}">Register</a>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
-    </body>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
+
 
