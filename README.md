@@ -7,3 +7,9 @@
 - it has registration/login/logout
 - it has a live inventory where it gets updated after any purchases (FUll Crud operations).
 -  
+
+#### How to run:
+- make a venv `python -m venv .venv`
+- activate the venv `source .venv/bin/activate`
+- install the requirements `pip install requirements.txt`
+- then run the server `python manage.py runserver` 
